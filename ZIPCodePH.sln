@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Api", "ZIPCodePH.Api\ZIPCodePH.Api.csproj", "{4D2A549A-2D61-455D-8804-312D37E26C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.DataContext", "ZIPCodePH.DataContext\ZIPCodePH.DataContext.csproj", "{BD868D21-2B14-4E18-A66A-DE3306646B3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D2A549A-2D61-455D-8804-312D37E26C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D2A549A-2D61-455D-8804-312D37E26C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D2A549A-2D61-455D-8804-312D37E26C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D2A549A-2D61-455D-8804-312D37E26C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD868D21-2B14-4E18-A66A-DE3306646B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD868D21-2B14-4E18-A66A-DE3306646B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD868D21-2B14-4E18-A66A-DE3306646B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD868D21-2B14-4E18-A66A-DE3306646B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
