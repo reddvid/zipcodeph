@@ -20,4 +20,8 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ZIPCodePH.Data.Old\ZIPCodePH.Data.Old.csproj" />
+    </ItemGroup>
+
 </Project>
