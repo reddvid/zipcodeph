@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 using ZIPCodePH.DataContext.Entities;
 using ZIPCodePH.DataContext.Services;
 
@@ -17,17 +18,25 @@ public class ZipCodesController : ControllerBase
         _zipCodesService = zipCodesService;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<ZipCode>>> GetAll()
+    private async Task<IPagedList<ZipCode>> GetAll(int? page)
     {
         var zipCodes = await _zipCodesService.GetZipCodes();
-        return zipCodes.ToArray();
+
+        var pageNumber = page ?? 1;
+        return zipCodes.ToPagedList(pageNumber, 10);
     }
 
-    [HttpGet("query")]
-    public async Task<ActionResult<IEnumerable<ZipCode>>> GetZipCode(string query)
+    [HttpGet("query={query}")]
+    public async Task<IPagedList<ZipCode>> GetZipCode(string query, int? page)
     {
         var zipCodes = await _zipCodesService.GetZipCodesByQuery(query);
-        return zipCodes.ToArray();
+
+        if (zipCodes.Count() > 10)
+        {
+            var pageNumber = page ?? 1;
+            return zipCodes.ToPagedList(pageNumber, 10);
+        }
+
+        return zipCodes.ToPagedList();
     }
 }

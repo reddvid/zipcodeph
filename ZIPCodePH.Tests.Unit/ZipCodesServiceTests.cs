@@ -140,7 +140,8 @@ public class ZipCodesServiceTests : IDisposable
     [Theory]
     [InlineData("Rosario", 3)]
     [InlineData("Ca", 2)]
-    public async Task GetZipCodesByQuery_HasQuery_AreasContainingQuery(string query, int expectedCount)
+    [InlineData("xzcasd", 0)]
+    public async Task GetZipCodesByQuery_HasQuery_AreasContainingQueryCount(string query, int expectedCount)
     {
         // Arrange
         var ctx = _contextBuilder
