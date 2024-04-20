@@ -1,22 +1,11 @@
-﻿namespace ZIPCodePH.Data.Old.Models;
+using ZIPCodePH.Common.Models;
 
-public class ZipCodeModel
+namespace ZIPCodePH.Data.Old.Data;
+
+public static class ZipCodes
 {
-    public string ZipCode { get; set; }
-    public string Town { get; set; }
-    public string Area { get; set; }
-
-    public ZipCodeModel(string town, string zipCode, string area)
+    public static IEnumerable<ZipCodeModel> All = new[]
     {
-        ZipCode = zipCode;
-        Town = town;
-        Area = area;
-    }
-
-    public static IEnumerable<ZipCodeModel> Data = new[]
-    {
-        // LOAD ZIPS
-
         #region PROV LIST
 
         new ZipCodeModel("Bangued", "2800", "Abra"),

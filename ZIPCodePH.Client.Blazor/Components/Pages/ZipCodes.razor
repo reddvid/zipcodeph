@@ -1,8 +1,7 @@
 @page "/zipcodes"
 @page "/zipcodes/{area}"
 @using System.Text.Json
-@using System.Text.Json.Serialization
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using ZIPCodePH.Common.Models
 @inject NavigationManager Navigation
 @inject IHttpClientFactory ClientFactory
 
@@ -13,14 +12,14 @@
     <h2>@Area</h2>
 }
 
-@if (zipCodes is null)
+@if (_zipCodes is null)
 {
     <p>Failed to Fetch Data</p>
 }
 else
 {
     <div class="row">
-        @foreach (var codes in zipCodes)
+        @foreach (var codes in _zipCodes)
         {
             <div class="list-group">
                 <div class="list-group-item">
@@ -46,7 +45,7 @@ else
 @code {
 
     // private IEnumerable<AreaModel>? areas = [];
-    private IEnumerable<ZipCodeModel>? zipCodes = [];
+    private IEnumerable<ZipCodeModel>? _zipCodes = [];
 
     private async Task GetZipCodesByAreasAsync()
     {
@@ -60,7 +59,7 @@ else
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            zipCodes = await JsonSerializer.DeserializeAsync<IEnumerable<ZipCodeModel>>(responseStream);
+            _zipCodes = await JsonSerializer.DeserializeAsync<IEnumerable<ZipCodeModel>>(responseStream);
         }
     }
 
@@ -79,40 +78,5 @@ else
         }
     }
 
-    private async Task GetPaginatedZipCodesAsync()
-    {
-        var request = new HttpRequestMessage(HttpMethod.Get,
-            $"https://localhost:7171/zipcodes/");
-        var client = ClientFactory.CreateClient();
-        var response = await client.SendAsync(request);
-
-        Console.WriteLine(response.IsSuccessStatusCode);
-
-        if (response.IsSuccessStatusCode)
-        {
-            await using var responseStream = await response.Content.ReadAsStreamAsync();
-            zipCodes = await JsonSerializer.DeserializeAsync<IEnumerable<ZipCodeModel>>(responseStream);
-        }
-    }
-
     [Parameter] public string? Area { get; set; }
-
-    public class ZipCodeModel
-    {
-        [JsonPropertyName("code")] public int Code { get; set; }
-        [JsonPropertyName("town")] public string Town { get; set; }
-        [JsonPropertyName("area")] public AreaModel Area { get; set; }
-    }
-
-    public class AreaModel
-    {
-        [JsonPropertyName("name")] public string? Name { get; set; }
-        [JsonPropertyName("group")] public GroupModel Group { get; set; }
-    }
-
-    public class GroupModel
-    {
-        [JsonPropertyName("name")] public string? Name { get; set; }
-    }
-
 }

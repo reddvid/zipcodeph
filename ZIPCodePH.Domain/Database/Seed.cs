@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
-using ZIPCodePH.Data.Old.Models;
+using ZIPCodePH.Common.Models;
+using ZIPCodePH.Data.Old.Data;
 using ZIPCodePH.DataContext.Entities;
 
 namespace ZIPCodePH.DataContext.Data;
@@ -24,13 +25,13 @@ public class Seed
         var mindanao = await context.AddAsync(new Group { Name = "Mindanao" });
 
         // Areas
-        await SeedAreaDataAsync(context, AreaModel.Ncr, ncr);
-        await SeedAreaDataAsync(context, AreaModel.Luzon, luzon);
-        await SeedAreaDataAsync(context, AreaModel.Visayas, visayas);
-        await SeedAreaDataAsync(context, AreaModel.Mindanao, mindanao);
+        await SeedAreaDataAsync(context, Areas.Ncr, ncr);
+        await SeedAreaDataAsync(context, Areas.Luzon, luzon);
+        await SeedAreaDataAsync(context, Areas.Visayas, visayas);
+        await SeedAreaDataAsync(context, Areas.Mindanao, mindanao);
 
         // ZIP Codes
-        await SeedZipCodeDataAsync(context, ZipCodeModel.Data);
+        await SeedZipCodeDataAsync(context, ZipCodes.All);
 
         await context.SaveChangesAsync();
     }
@@ -43,7 +44,7 @@ public class Seed
         {
             Console.WriteLine($"{zipCode.Area} {zipCode.Town}");
 
-            var area = context.ChangeTracker.Entries<Area>().FirstOrDefault(e => e.Entity.Name == zipCode.Area);
+            var area = context.ChangeTracker.Entries<Area>().FirstOrDefault(e => e.Entity.Name == zipCode.AreaName);
             var code = ushort.Parse(zipCode.ZipCode);
             await context.AddAsync(new ZipCode
                 {
