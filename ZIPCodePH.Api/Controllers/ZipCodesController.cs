@@ -18,8 +18,7 @@ public class ZipCodesController : ControllerBase
         _zipCodesService = zipCodesService;
     }
 
-    [HttpGet]
-    public async Task<IPagedList<ZipCode>> GetAll(int? page)
+    private async Task<IPagedList<ZipCode>> GetAll(int? page)
     {
         var zipCodes = await _zipCodesService.GetZipCodes();
 
@@ -27,7 +26,7 @@ public class ZipCodesController : ControllerBase
         return zipCodes.ToPagedList(pageNumber, 10);
     }
 
-    [HttpGet("q={query}")]
+    [HttpGet("query={query}")]
     public async Task<IPagedList<ZipCode>> GetZipCode(string query, int? page)
     {
         var zipCodes = await _zipCodesService.GetZipCodesByQuery(query);
