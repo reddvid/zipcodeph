@@ -16,7 +16,7 @@ public class AreaController : ControllerBase
         _areasService = areasService;
     }
 
-    [HttpGet("/areas={groupName}")]
+    [HttpGet("/areas/{groupName}")]
     public async Task<IEnumerable<Area>> GetAreasByGroupName(string groupName)
     {
         var areas = await _areasService.GetAreasByGroupName(groupName);

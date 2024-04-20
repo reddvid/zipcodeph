@@ -1,14 +1,14 @@
 @page "/areas"
-@page "/areas/{area}"
+@page "/areas/{group}"
 @using System.Text.Json
 @using System.Text.Json.Serialization
 @inject IHttpClientFactory ClientFactory
 
 <PageTitle>Areas</PageTitle>
 
-@if (!string.IsNullOrWhiteSpace(Area))
+@if (!string.IsNullOrWhiteSpace(Group))
 {
-    @if (Area.ToLower().StartsWith("n"))
+    @if (Group.ToLower().StartsWith("n"))
     {
         <h2>
             National Capital Region
@@ -17,7 +17,7 @@
     else
     {
         <h2>
-            @string.Join("", new[] { @Area.Substring(0, 1).ToUpper(), @Area.Substring(1) })
+            @string.Join("", new[] { @Group.Substring(0, 1).ToUpper(), @Group.Substring(1) })
         </h2>
     }
 }
@@ -28,42 +28,41 @@
 }
 else
 {
-    if (string.IsNullOrWhiteSpace(Area))
-    {
-        @foreach (var group in groups)
+    <div class="row">
+        @if (string.IsNullOrWhiteSpace(Group))
         {
-            <div class="container">
-                <h4>Areas for <a href="/areas/@group.Name">@group.Name</a></h4>
-                <ul class="ul">
+            <!-- Showing All Zip Codes -->
+            foreach (var group in groups)
+            {
+                <div class="col-md-auto">
+                    <h4>Towns/Cities in <a class="alert-link" href="/areas/@group.Name">@group.Name</a></h4>
+                    <div class="list-group">
+                        @foreach (var area in areas)
+                        {
+                            if (area.Group.Name != group.Name) continue;
+                            <a href="/zipcodes/@area.Name" class="list-group-item">
+                                @area.Name
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="row">
+                <div class="list-group">
                     @foreach (var area in areas)
                     {
-                        if (area.Group.Name != group.Name) continue;
-                        <div class="row">
-                            <li class="li">
-                                @area.Name
-                            </li>
-                        </div>
+                        if (area.Group.Name.ToLower() != Group.ToLower()) continue;
+                        <a href="/zipcodes/@area.Name" class="list-group-item">
+                            @area.Name
+                        </a>
                     }
-                </ul>
+                </div>
             </div>
         }
-    }
-    else
-    {
-        <div class="container">
-            <ul class="ul">
-                @foreach (var area in areas)
-                {
-                    if (area.Group.Name.ToLower() != Area.ToLower()) continue;
-                    <div class="row">
-                        <li class="li">
-                            @area.Name
-                        </li>
-                    </div>
-                }
-            </ul>
-        </div>
-    }
+    </div>
 }
 
 @code {
@@ -104,14 +103,14 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        Area = Area ?? "";
-        Console.WriteLine("Parameter: " + Area);
+        Group = Group ?? "";
+        Console.WriteLine("Parameter: " + Group);
 
         await GetGroupsAsync();
         await GetAreasAsync();
     }
 
-    [Parameter] public string? Area { get; set; } = default!;
+    [Parameter] public string? Group { get; set; } = default!;
 
     public class AreaModel
     {

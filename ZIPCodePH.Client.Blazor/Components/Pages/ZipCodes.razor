@@ -1,0 +1,118 @@
+@page "/zipcodes"
+@page "/zipcodes/{area}"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@inject NavigationManager Navigation
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>ZIP Codes</PageTitle>
+
+@if (!string.IsNullOrWhiteSpace(Area))
+{
+    <h2>@Area</h2>
+}
+
+@if (zipCodes is null)
+{
+    <p>Failed to Fetch Data</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var codes in zipCodes)
+        {
+            <div class="list-group">
+                <div class="list-group-item">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                @codes.Code
+                            </div>
+                            <div class="col-md-8">
+                                @codes.Town
+                            </div>
+                            @* <div class="col-3"> *@
+                            @*     @codes.Area.Name *@
+                            @* </div> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+
+    // private IEnumerable<AreaModel>? areas = [];
+    private IEnumerable<ZipCodeModel>? zipCodes = [];
+
+    private async Task GetZipCodesByAreasAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://localhost:7171/zipcodes/{Area}");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+        Console.WriteLine(response.IsSuccessStatusCode);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            zipCodes = await JsonSerializer.DeserializeAsync<IEnumerable<ZipCodeModel>>(responseStream);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Area = Area ?? "";
+        Console.WriteLine("Parameter: " + Area);
+
+        if (!string.IsNullOrWhiteSpace(Area))
+        {
+            await GetZipCodesByAreasAsync();
+        }
+        else
+        {
+            Navigation.NavigateTo("/areas/");
+        }
+    }
+
+    private async Task GetPaginatedZipCodesAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://localhost:7171/zipcodes/");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+        Console.WriteLine(response.IsSuccessStatusCode);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            zipCodes = await JsonSerializer.DeserializeAsync<IEnumerable<ZipCodeModel>>(responseStream);
+        }
+    }
+
+    [Parameter] public string? Area { get; set; }
+
+    public class ZipCodeModel
+    {
+        [JsonPropertyName("code")] public int Code { get; set; }
+        [JsonPropertyName("town")] public string Town { get; set; }
+        [JsonPropertyName("area")] public AreaModel Area { get; set; }
+    }
+
+    public class AreaModel
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+        [JsonPropertyName("group")] public GroupModel Group { get; set; }
+    }
+
+    public class GroupModel
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+    }
+
+}
