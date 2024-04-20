@@ -18,6 +18,11 @@ public class ZipCodesService : IZipCodesService
 
     public async Task<IEnumerable<ZipCode>> GetZipCodesByQuery(string query)
     {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            throw new ArgumentException("Query is empty", nameof(query));
+        }
+        
         return await _context.ZipCodes!
             .Include("Area")
             .Include("Area.Group")
