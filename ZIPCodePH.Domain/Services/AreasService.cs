@@ -14,9 +14,4 @@ public class AreasService : IAreasService
     }
 
     public async Task<IEnumerable<Area>> GetAreas() => await _context.Areas!.ToArrayAsync();
-
-    public async Task<IEnumerable<Area>?> GetAreasByQuery(string name) =>
-        await _context.Areas!
-            .Where(a => a.Name.ToLower().Contains(name.ToLower()))
-            .ToArrayAsync();
 }

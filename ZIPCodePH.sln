@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Api", "ZIPCodePH.Api\ZIPCodePH.Api.csproj", "{4D2A549A-2D61-455D-8804-312D37E26C76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.DataContext", "ZIPCodePH.DataContext\ZIPCodePH.DataContext.csproj", "{BD868D21-2B14-4E18-A66A-DE3306646B3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Domain", "ZIPCodePH.Domain\ZIPCodePH.Domain.csproj", "{BD868D21-2B14-4E18-A66A-DE3306646B3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Data.Old", "ZIPCodePH.Data.Old\ZIPCodePH.Data.Old.csproj", "{6F61DE91-4D0A-4EF0-9F42-ED2EAF78259E}"
 EndProject

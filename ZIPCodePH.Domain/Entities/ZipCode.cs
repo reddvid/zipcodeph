@@ -14,4 +14,6 @@ public class ZipCode
     public int AreaId { get; set; }
     public Area Area { get; set; }
     
+    public bool IsFavorite { get; set; }
+    
 }
