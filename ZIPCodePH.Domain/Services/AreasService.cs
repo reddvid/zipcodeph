@@ -13,10 +13,13 @@ public class AreasService : IAreasService
         _context = context;
     }
 
-    public async Task<IEnumerable<Area>> GetAreas() => await _context.Areas!.ToArrayAsync();
+    public async Task<IEnumerable<Area>> GetAreas()
+    {
+        return await _context.Areas!.Include("Group").ToArrayAsync();
+    }
 
-    public async Task<IEnumerable<Area>?> GetAreasByQuery(string name) =>
-        await _context.Areas!
-            .Where(a => a.Name.ToLower().Contains(name.ToLower()))
-            .ToArrayAsync();
+    public async Task<IEnumerable<Area>> GetAreasByGroupName(string name)
+    {
+        return await _context.Areas!.Include("Group").Where(a => a.Group.Name == name).ToArrayAsync();
+    }
 }

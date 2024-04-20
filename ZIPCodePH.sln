@@ -2,11 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Api", "ZIPCodePH.Api\ZIPCodePH.Api.csproj", "{4D2A549A-2D61-455D-8804-312D37E26C76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.DataContext", "ZIPCodePH.DataContext\ZIPCodePH.DataContext.csproj", "{BD868D21-2B14-4E18-A66A-DE3306646B3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Domain", "ZIPCodePH.Domain\ZIPCodePH.Domain.csproj", "{BD868D21-2B14-4E18-A66A-DE3306646B3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Data.Old", "ZIPCodePH.Data.Old\ZIPCodePH.Data.Old.csproj", "{6F61DE91-4D0A-4EF0-9F42-ED2EAF78259E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Tests.Unit", "ZIPCodePH.Tests.Unit\ZIPCodePH.Tests.Unit.csproj", "{DB2EA722-46D6-4D29-A249-F891127AA253}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{BE69E49D-C82A-4FD0-8865-612F6E765C82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Client.Blazor", "ZIPCodePH.Client.Blazor\ZIPCodePH.Client.Blazor.csproj", "{8C9A2F10-A672-4828-A1D0-7B56D7C41189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Common", "ZIPCodePH.Common\ZIPCodePH.Common.csproj", "{B2AB4A5B-77D2-48F5-8969-5B3008D2447E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +36,16 @@ Global
 		{DB2EA722-46D6-4D29-A249-F891127AA253}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2EA722-46D6-4D29-A249-F891127AA253}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2EA722-46D6-4D29-A249-F891127AA253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2AB4A5B-77D2-48F5-8969-5B3008D2447E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2AB4A5B-77D2-48F5-8969-5B3008D2447E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2AB4A5B-77D2-48F5-8969-5B3008D2447E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2AB4A5B-77D2-48F5-8969-5B3008D2447E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189} = {BE69E49D-C82A-4FD0-8865-612F6E765C82}
 	EndGlobalSection
 EndGlobal

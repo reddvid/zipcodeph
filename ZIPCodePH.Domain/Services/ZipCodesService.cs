@@ -32,4 +32,20 @@ public class ZipCodesService : IZipCodesService
                     z.Town.ToLower().Contains(query.ToLower()))
             .ToArrayAsync();
     }
+
+    public async Task<IEnumerable<ZipCode>> GetZipCodesByArea(string area)
+    {
+        if (string.IsNullOrWhiteSpace(area))
+        {
+            throw new ArgumentException("Query is empty", nameof(area));
+        }
+        
+        return await _context.ZipCodes!
+            .Include("Area")
+            .Include("Area.Group")
+            .Where(
+                z =>
+                    z.Area.Name.ToLower().Equals(area.ToLower()))
+            .ToArrayAsync();
+    }
 }

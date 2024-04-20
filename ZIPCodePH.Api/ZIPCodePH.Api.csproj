@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ZIPCodePH.DataContext\ZIPCodePH.DataContext.csproj" />
+      <ProjectReference Include="..\ZIPCodePH.Domain\ZIPCodePH.Domain.csproj" />
     </ItemGroup>
 
 </Project>

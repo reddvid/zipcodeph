@@ -15,6 +15,15 @@ public class ApplicationContextFakeBuilder : IDisposable
     private EntityEntry<Area> _batangasArea;
     private EntityEntry<Area> _cebuArea;
 
+    public ApplicationContextFakeBuilder WithAllFourGroups()
+    {
+        _context.Add(new Group { Name = "NCR" });
+        _context.Add(new Group { Name = "Luzon" });
+        _context.Add(new Group { Name = "Visayas" });
+        _context.Add(new Group { Name = "Mindanao" });
+        return this;
+    }
+    
     public ApplicationContextFakeBuilder WithOneZipCode()
     {
         _ncrGroup = _context.Add(new Group { Name = "NCR" });

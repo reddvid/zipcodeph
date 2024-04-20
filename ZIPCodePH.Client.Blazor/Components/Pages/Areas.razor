@@ -1,0 +1,126 @@
+@page "/areas"
+@page "/areas/{group}"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>Areas</PageTitle>
+
+@if (!string.IsNullOrWhiteSpace(Group))
+{
+    @if (Group.ToLower().StartsWith("n"))
+    {
+        <h2>
+            National Capital Region
+        </h2>
+    }
+    else
+    {
+        <h2>
+            @string.Join("", new[] { @Group.Substring(0, 1).ToUpper(), @Group.Substring(1) })
+        </h2>
+    }
+}
+
+@if (areas is null || groups is null)
+{
+    <p>Failed to Fetch Data</p>
+}
+else
+{
+    <div class="row">
+        @if (string.IsNullOrWhiteSpace(Group))
+        {
+            <!-- Showing All Zip Codes -->
+            foreach (var group in groups)
+            {
+                <div class="col-md-auto">
+                    <h4>Towns/Cities in <a class="alert-link" href="/areas/@group.Name">@group.Name</a></h4>
+                    <div class="list-group">
+                        @foreach (var area in areas)
+                        {
+                            if (area.Group.Name != group.Name) continue;
+                            <a href="/zipcodes/@area.Name" class="list-group-item">
+                                @area.Name
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="row">
+                <div class="list-group">
+                    @foreach (var area in areas)
+                    {
+                        if (area.Group.Name.ToLower() != Group.ToLower()) continue;
+                        <a href="/zipcodes/@area.Name" class="list-group-item">
+                            @area.Name
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private IEnumerable<GroupModel>? groups = [];
+    private IEnumerable<AreaModel>? areas = [];
+
+    private async Task GetAreasAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://localhost:7171/areas");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+        Console.WriteLine(response.IsSuccessStatusCode);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            areas = await JsonSerializer.DeserializeAsync<IEnumerable<AreaModel>>(responseStream);
+        }
+    }
+
+    private async Task GetGroupsAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            "https://localhost:7171/groups");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+        Console.WriteLine(response.IsSuccessStatusCode);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            groups = await JsonSerializer.DeserializeAsync<IEnumerable<GroupModel>>(responseStream);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Group = Group ?? "";
+        Console.WriteLine("Parameter: " + Group);
+
+        await GetGroupsAsync();
+        await GetAreasAsync();
+    }
+
+    [Parameter] public string? Group { get; set; } = default!;
+
+    public class AreaModel
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+        [JsonPropertyName("group")] public GroupModel Group { get; set; }
+    }
+
+    public class GroupModel
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+    }
+
+}
