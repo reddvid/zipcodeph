@@ -1,7 +1,7 @@
 @page "/zipcodes"
 @page "/zipcodes/{area}"
 @using System.Text.Json
-@using ZIPCodePH.Common.Models
+@using ZIPCodePH.Common.ViewModels
 @inject NavigationManager Navigation
 @inject IHttpClientFactory ClientFactory
 
@@ -44,8 +44,8 @@ else
 
 @code {
 
-    // private IEnumerable<AreaModel>? areas = [];
-    private IEnumerable<ZipCodeModel>? _zipCodes = [];
+    // private IEnumerable<AreaViewModel>? areas = [];
+    private IEnumerable<ZipCodeViewModel>? _zipCodes = [];
 
     private async Task GetZipCodesByAreasAsync()
     {
@@ -59,7 +59,7 @@ else
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            _zipCodes = await JsonSerializer.DeserializeAsync<IEnumerable<ZipCodeModel>>(responseStream);
+            _zipCodes = await JsonSerializer.DeserializeAsync<IEnumerable<ZipCodeViewModel>>(responseStream);
         }
     }
 

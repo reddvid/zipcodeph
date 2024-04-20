@@ -1,7 +1,9 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using ZIPCodePH.Common.Models;
+using ZIPCodePH.Common.ViewModels;
 using ZIPCodePH.Data.Old.Data;
 using ZIPCodePH.DataContext.Entities;
 
@@ -15,8 +17,6 @@ public class Seed
             new ApplicationContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationContext>>());
         // await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
-
-        if (await context.ZipCodes!.AnyAsync()) return;
 
         // Groups
         var ncr = await context.AddAsync(new Group { Name = "NCR" });
@@ -33,7 +33,26 @@ public class Seed
         // ZIP Codes
         await SeedZipCodeDataAsync(context, ZipCodes.All);
 
+        // Trivia
+        await SeedTriviaDataAsync(context);
+
         await context.SaveChangesAsync();
+    }
+
+    private static async Task SeedTriviaDataAsync(ApplicationContext context)
+    {
+        // Read Json File
+        string? dir = Path.GetDirectoryName(
+            System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+        using StreamReader reader = new StreamReader(dir + "/Database/trivia.json");
+        var json = await reader.ReadToEndAsync();
+        var trivia = JsonSerializer.Deserialize<TriviaViewModel>(json);
+
+        foreach (var trivium in trivia!.Trivia!.ToArray())
+        {
+            await context.AddAsync(new Trivia { Content = trivium });
+        }
     }
 
     private static async Task SeedZipCodeDataAsync(
@@ -42,9 +61,9 @@ public class Seed
     {
         foreach (var zipCode in data)
         {
-            Console.WriteLine($"{zipCode.Area} {zipCode.Town}");
+            Console.WriteLine($"{zipCode.Area} {zipCode.Town} {zipCode.ZipCode}");
 
-            var area = context.ChangeTracker.Entries<Area>().FirstOrDefault(e => e.Entity.Name == zipCode.AreaName);
+            var area = context.ChangeTracker.Entries<Area>().FirstOrDefault(e => e.Entity.Name == zipCode.Area);
             var code = ushort.Parse(zipCode.ZipCode);
             await context.AddAsync(new ZipCode
                 {
@@ -67,5 +86,4 @@ public class Seed
                 new Area { Name = area, Group = group.Entity });
         }
     }
-
 }

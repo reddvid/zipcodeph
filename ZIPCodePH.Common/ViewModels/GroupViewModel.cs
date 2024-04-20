@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ZIPCodePH.Common.Models;
+namespace ZIPCodePH.Common.ViewModels;
 
-public class GroupModel
+public class GroupViewModel
 {
     [JsonPropertyName("name")] public string? Name { get; set; }
 }

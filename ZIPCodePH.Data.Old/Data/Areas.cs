@@ -1,6 +1,6 @@
 namespace ZIPCodePH.Data.Old.Data;
 
-public static class Areas
+public class Areas
 {
     public static IEnumerable<string> Ncr = new[]
     {

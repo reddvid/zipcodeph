@@ -25,4 +25,10 @@
       <ProjectReference Include="..\ZIPCodePH.Data.Old\ZIPCodePH.Data.Old.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Database\trivia.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

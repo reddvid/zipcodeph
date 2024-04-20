@@ -2,6 +2,7 @@
 @page "/areas/{group}"
 @using System.Text.Json
 @using ZIPCodePH.Common.Models
+@using ZIPCodePH.Common.ViewModels
 @inject IHttpClientFactory ClientFactory
 
 <PageTitle>Areas</PageTitle>
@@ -39,7 +40,7 @@ else
                     <div class="list-group">
                         @foreach (var area in areas)
                         {
-                            if (area.Group.Name != group.Name) continue;
+                            if (area.GroupView.Name != group.Name) continue;
                             <a href="/zipcodes/@area.Name" class="list-group-item">
                                 @area.Name
                             </a>
@@ -54,7 +55,7 @@ else
                 <div class="list-group">
                     @foreach (var area in areas)
                     {
-                        if (area.Group.Name.ToLower() != Group.ToLower()) continue;
+                        if (area.GroupView.Name.ToLower() != Group.ToLower()) continue;
                         <a href="/zipcodes/@area.Name" class="list-group-item">
                             @area.Name
                         </a>
@@ -66,8 +67,8 @@ else
 }
 
 @code {
-    private IEnumerable<GroupModel>? groups = [];
-    private IEnumerable<AreaModel>? areas = [];
+    private IEnumerable<GroupViewModel>? groups = [];
+    private IEnumerable<AreaViewModel>? areas = [];
 
     private async Task GetAreasAsync()
     {
@@ -81,7 +82,7 @@ else
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            areas = await JsonSerializer.DeserializeAsync<IEnumerable<AreaModel>>(responseStream);
+            areas = await JsonSerializer.DeserializeAsync<IEnumerable<AreaViewModel>>(responseStream);
         }
     }
 
@@ -97,7 +98,7 @@ else
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            groups = await JsonSerializer.DeserializeAsync<IEnumerable<GroupModel>>(responseStream);
+            groups = await JsonSerializer.DeserializeAsync<IEnumerable<GroupViewModel>>(responseStream);
         }
     }
 

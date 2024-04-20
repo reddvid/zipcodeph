@@ -2,7 +2,7 @@ using ZIPCodePH.Common.Models;
 
 namespace ZIPCodePH.Data.Old.Data;
 
-public static class ZipCodes
+public class ZipCodes
 {
     public static IEnumerable<ZipCodeModel> All = new[]
     {

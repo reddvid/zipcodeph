@@ -15,11 +15,11 @@ public class AreasService : IAreasService
 
     public async Task<IEnumerable<Area>> GetAreas()
     {
-        return await _context.Areas!.Include("Group").ToArrayAsync();
+        return await _context.Areas!.Include("GroupView").ToArrayAsync();
     }
 
     public async Task<IEnumerable<Area>> GetAreasByGroupName(string name)
     {
-        return await _context.Areas!.Include("Group").Where(a => a.Group.Name == name).ToArrayAsync();
+        return await _context.Areas!.Include("GroupView").Where(a => a.Group.Name == name).ToArrayAsync();
     }
 }

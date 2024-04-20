@@ -1,7 +1,10 @@
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using ZIPCodePH.Common.Models;
+using ZIPCodePH.Common.ViewModels;
+using ZIPCodePH.DataContext.Data;
 using ZIPCodePH.DataContext.Options;
 
 namespace ZIPCodePH.DataContext.Services;
@@ -9,16 +12,18 @@ namespace ZIPCodePH.DataContext.Services;
 public class TriviaService : ITriviaService
 {
     private readonly JsonBinConnectionOptions _connectionOptions;
+    private readonly ApplicationContext _context;
 
-    public TriviaService(IOptions<JsonBinConnectionOptions> connectionOptions)
+    public TriviaService(IOptions<JsonBinConnectionOptions> connectionOptions, ApplicationContext context)
     {
+        _context = context;
         _connectionOptions = connectionOptions.Value;
     }
-    
+
     private async Task<IEnumerable<string>> GetAllAsync()
     {
-        TriviaModel trivia = new();
-        
+        TriviaViewModel triviaView = new();
+
         HttpClient client = new();
         client.DefaultRequestHeaders.Add("X-Master-Key", _connectionOptions.MasterKey);
         client.DefaultRequestHeaders.Add("X-Access-Key", _connectionOptions.AccessKey);
@@ -31,17 +36,17 @@ public class TriviaService : ITriviaService
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            trivia = await JsonSerializer.DeserializeAsync<TriviaModel>(responseStream);
+            triviaView = await JsonSerializer.DeserializeAsync<TriviaViewModel>(responseStream);
         }
 
-        return trivia.Trivia;
+        return triviaView.Trivia;
     }
 
     public async Task<string> GetRandomTrivia()
     {
-        var trivia = await GetAllAsync();
-        var i = Random.Shared.Next(0, trivia.Count());
-        return trivia.ToArray()[i];
-
+        // var trivia = await GetAllAsync();
+        var trivia = await _context.Trivia!.ToArrayAsync();
+        var i = Random.Shared.Next(0, trivia.Length);
+        return trivia[i].Content;
     }
 }

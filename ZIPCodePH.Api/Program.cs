@@ -7,8 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationContext>(
-    options => options.UseSqlServer(builder.Configuration["AzureSqlDb:ConnectionString"]));
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("ZipCodePH")));
 
+// options.UseSqlServer(builder.Configuration["AzureSqlDb:ConnectionString"])
 // options.UseSqlServer(builder.Configuration.GetConnectionString("ZipCodePH"))
 
 var jsonBinMasterKey = builder.Configuration["JsonBin:MasterKey"];
