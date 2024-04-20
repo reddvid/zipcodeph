@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Api", "ZIPCodePH.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.DataContext", "ZIPCodePH.DataContext\ZIPCodePH.DataContext.csproj", "{BD868D21-2B14-4E18-A66A-DE3306646B3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Data.Old", "ZIPCodePH.Data.Old\ZIPCodePH.Data.Old.csproj", "{6F61DE91-4D0A-4EF0-9F42-ED2EAF78259E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{BD868D21-2B14-4E18-A66A-DE3306646B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD868D21-2B14-4E18-A66A-DE3306646B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD868D21-2B14-4E18-A66A-DE3306646B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F61DE91-4D0A-4EF0-9F42-ED2EAF78259E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F61DE91-4D0A-4EF0-9F42-ED2EAF78259E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F61DE91-4D0A-4EF0-9F42-ED2EAF78259E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F61DE91-4D0A-4EF0-9F42-ED2EAF78259E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
