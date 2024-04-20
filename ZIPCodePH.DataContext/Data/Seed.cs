@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
+using ZIPCodePH.Data.Old.Models;
 using ZIPCodePH.DataContext.Entities;
 
 namespace ZIPCodePH.DataContext.Data;
@@ -22,46 +24,47 @@ public class Seed
         var mindanao = await context.AddAsync(new Group { Name = "Mindanao" });
 
         // Areas
-
-        #region NCR
-
-        var manila = await context.AddAsync(new Area { Name = "Manila", Group = ncr.Entity });
-        var caloocan = await context.AddAsync(new Area { Name = "Caloocan", Group = ncr.Entity });
-
-        #endregion
-
-        #region Mindanao
-
-        var misamisOccidental =
-            await context.AddAsync(new Area { Name = "Misamis Occidental", Group = mindanao.Entity });
-        var misamisOriental = await context.AddAsync(new Area { Name = "Misamis Oriential", Group = mindanao.Entity });
-
-        #endregion
+        await SeedAreaDataAsync(context, AreaModel.Ncr, ncr);
+        await SeedAreaDataAsync(context, AreaModel.Luzon, luzon);
+        await SeedAreaDataAsync(context, AreaModel.Visayas, visayas);
+        await SeedAreaDataAsync(context, AreaModel.Mindanao, mindanao);
 
         // ZIP Codes
-        await context.AddAsync(new ZipCode
-            { Code = 1000, Town = "Central Post Office", Area = manila.Entity! });
-        await context.AddAsync(new ZipCode
-            { Code = 1001, Town = "Quiapo", Area = manila.Entity });
-        await context.AddAsync(new ZipCode
-            { Code = 1002, Town = "Intramuros", Area = manila.Entity });
-        await context.AddAsync(new ZipCode
-            { Code = 1420, Town = "Kaybiga/Deparo", Area = caloocan.Entity });
-
-        #region Misamis Occidental
-
-        await context.AddAsync(new ZipCode
-            { Code = 7206, Town = "Aloran", Area = misamisOccidental.Entity });
-
-        #endregion
-
-        #region Misamis Oriental
-
-        await context.AddAsync(new ZipCode
-            { Code = 9005, Town = "Balingasag", Area = misamisOriental.Entity });
-
-        #endregion
+        await SeedZipCodeDataAsync(context, ZipCodeModel.Data);
 
         await context.SaveChangesAsync();
     }
+
+    private static async Task SeedZipCodeDataAsync(
+        ApplicationContext context,
+        IEnumerable<ZipCodeModel> data)
+    {
+        foreach (var zipCode in data)
+        {
+            Console.WriteLine($"{zipCode.Area} {zipCode.Town}");
+
+            var area = context.ChangeTracker.Entries<Area>().FirstOrDefault(e => e.Entity.Name == zipCode.Area);
+            var code = ushort.Parse(zipCode.ZipCode);
+            await context.AddAsync(new ZipCode
+                {
+                    Code = code,
+                    Town = zipCode.Town,
+                    Area = area!.Entity,
+                }
+            );
+        }
+    }
+
+    private static async Task SeedAreaDataAsync(
+        ApplicationContext context,
+        IEnumerable<string> areas,
+        EntityEntry<Group> group)
+    {
+        foreach (var area in areas)
+        {
+            await context.AddAsync(
+                new Area { Name = area, Group = group.Entity });
+        }
+    }
+
 }

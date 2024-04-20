@@ -6,5 +6,5 @@ public interface IZipCodesService
 {
     Task<IEnumerable<ZipCode>> GetZipCodes();
 
-    Task<IEnumerable<ZipCode>> GetZipCodesByArea(string area);
+    Task<IEnumerable<ZipCode>> GetZipCodesByQuery(string area);
 }
