@@ -1,6 +1,6 @@
-@ZIPCodePH.Api_HostAddress = http://localhost:5185
+@ZIPCodePH.Api_HostAddress = https://localhost:7171
 
-GET {{ZIPCodePH.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+GET {{ZIPCodePH.Api_HostAddress}}/query=Dagupan
+Accept: text/plain
 
 ###
