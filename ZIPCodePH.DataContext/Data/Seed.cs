@@ -12,7 +12,7 @@ public class Seed
     {
         await using var context =
             new ApplicationContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationContext>>());
-        await context.Database.EnsureDeletedAsync();
+        // await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
 
         if (await context.ZipCodes!.AnyAsync()) return;
