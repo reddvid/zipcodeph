@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ZIPCodePH.DataContext.Data;
+using ZIPCodePH.DataContext.Options;
 using ZIPCodePH.DataContext.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +11,17 @@ builder.Services.AddDbContext<ApplicationContext>(
 
 // options.UseSqlServer(builder.Configuration.GetConnectionString("ZipCodePH"))
 
+var jsonBinMasterKey = builder.Configuration["JsonBin:MasterKey"];
+var jsonBinAccessKey = builder.Configuration["JsonBin:AccessKey"];
+builder.Services.Configure<JsonBinConnectionOptions>(o =>
+{
+    o.MasterKey = jsonBinMasterKey!;
+    o.AccessKey = jsonBinAccessKey!;
+});
 builder.Services.AddScoped<IZipCodesService, ZipCodesService>();
 builder.Services.AddScoped<IAreasService, AreasService>();
 builder.Services.AddScoped<IGroupsService, GroupsService>();
+builder.Services.AddScoped<ITriviaService, TriviaService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();

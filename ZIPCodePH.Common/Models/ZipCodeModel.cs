@@ -17,6 +17,4 @@ public class ZipCodeModel
         TownName = town;
         AreaName = area;
     }
-    
-    
 }
