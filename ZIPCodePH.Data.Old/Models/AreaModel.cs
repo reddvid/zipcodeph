@@ -105,6 +105,7 @@ public static class AreaModel
         "Misamis Occidental",
         "Misamis Oriental",
         "North Cotabato",
+        "Sarangani",
         "South Cotabato",
         "Sultan Kudarat",
         "Sulu",

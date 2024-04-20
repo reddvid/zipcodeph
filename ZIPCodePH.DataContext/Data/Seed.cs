@@ -12,7 +12,7 @@ public class Seed
     {
         await using var context =
             new ApplicationContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationContext>>());
-        // await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
 
         if (await context.ZipCodes!.AnyAsync()) return;
@@ -41,13 +41,15 @@ public class Seed
     {
         foreach (var zipCode in data)
         {
-            var area = await context.Areas!.FindAsync($"Name:{zipCode.Area}");
+            Console.WriteLine($"{zipCode.Area} {zipCode.Town}");
+
+            var area = context.ChangeTracker.Entries<Area>().FirstOrDefault(e => e.Entity.Name == zipCode.Area);
             var code = ushort.Parse(zipCode.ZipCode);
             await context.AddAsync(new ZipCode
                 {
                     Code = code,
                     Town = zipCode.Town,
-                    Area = area!,
+                    Area = area!.Entity,
                 }
             );
         }
