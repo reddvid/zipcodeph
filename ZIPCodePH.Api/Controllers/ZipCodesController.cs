@@ -25,9 +25,9 @@ public class ZipCodesController : ControllerBase
     }
 
     [HttpGet("query")]
-    public async Task<ActionResult<IEnumerable<ZipCode>>> GetZipCode(string area)
+    public async Task<ActionResult<IEnumerable<ZipCode>>> GetZipCode(string query)
     {
-        var zipCodes = await _zipCodesService.GetZipCodesByArea(area);
+        var zipCodes = await _zipCodesService.GetZipCodesByQuery(query);
         return zipCodes.ToArray();
     }
 }

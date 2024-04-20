@@ -16,14 +16,15 @@ public class ZipCodesService : IZipCodesService
     public async Task<IEnumerable<ZipCode>> GetZipCodes() =>
         await _context.ZipCodes!.Include("Area").Include("Area.Group").ToArrayAsync();
 
-    public async Task<IEnumerable<ZipCode>> GetZipCodesByArea(string area)
+    public async Task<IEnumerable<ZipCode>> GetZipCodesByQuery(string query)
     {
         return await _context.ZipCodes!
             .Include("Area")
             .Include("Area.Group")
             .Where(
-                z => z.Area.Name.ToLower()
-                    .Contains(area.ToLower()))
+                z =>
+                    z.Area.Name.ToLower().Contains(query.ToLower()) ||
+                    z.Town.ToLower().Contains(query.ToLower()))
             .ToArrayAsync();
     }
 }
