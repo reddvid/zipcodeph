@@ -1,0 +1,127 @@
+@page "/areas"
+@page "/areas/{area}"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>Areas</PageTitle>
+
+@if (!string.IsNullOrWhiteSpace(Area))
+{
+    @if (Area.ToLower().StartsWith("n"))
+    {
+        <h2>
+            National Capital Region
+        </h2>
+    }
+    else
+    {
+        <h2>
+            @string.Join("", new[] { @Area.Substring(0, 1).ToUpper(), @Area.Substring(1) })
+        </h2>
+    }
+}
+
+@if (areas is null || groups is null)
+{
+    <p>Failed to Fetch Data</p>
+}
+else
+{
+    if (string.IsNullOrWhiteSpace(Area))
+    {
+        @foreach (var group in groups)
+        {
+            <div class="container">
+                <h4>Areas for <a href="/areas/@group.Name">@group.Name</a></h4>
+                <ul class="ul">
+                    @foreach (var area in areas)
+                    {
+                        if (area.Group.Name != group.Name) continue;
+                        <div class="row">
+                            <li class="li">
+                                @area.Name
+                            </li>
+                        </div>
+                    }
+                </ul>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="container">
+            <ul class="ul">
+                @foreach (var area in areas)
+                {
+                    if (area.Group.Name.ToLower() != Area.ToLower()) continue;
+                    <div class="row">
+                        <li class="li">
+                            @area.Name
+                        </li>
+                    </div>
+                }
+            </ul>
+        </div>
+    }
+}
+
+@code {
+    private IEnumerable<GroupModel>? groups = [];
+    private IEnumerable<AreaModel>? areas = [];
+
+    private async Task GetAreasAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://localhost:7171/areas");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+        Console.WriteLine(response.IsSuccessStatusCode);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            areas = await JsonSerializer.DeserializeAsync<IEnumerable<AreaModel>>(responseStream);
+        }
+    }
+
+    private async Task GetGroupsAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            "https://localhost:7171/groups");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+        Console.WriteLine(response.IsSuccessStatusCode);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            groups = await JsonSerializer.DeserializeAsync<IEnumerable<GroupModel>>(responseStream);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Area = Area ?? "";
+        Console.WriteLine("Parameter: " + Area);
+
+        await GetGroupsAsync();
+        await GetAreasAsync();
+    }
+
+    [Parameter] public string? Area { get; set; } = default!;
+
+    public class AreaModel
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+        [JsonPropertyName("group")] public GroupModel Group { get; set; }
+    }
+
+    public class GroupModel
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+    }
+
+}

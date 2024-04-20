@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Data.Old", "ZIPCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Tests.Unit", "ZIPCodePH.Tests.Unit\ZIPCodePH.Tests.Unit.csproj", "{DB2EA722-46D6-4D29-A249-F891127AA253}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{BE69E49D-C82A-4FD0-8865-612F6E765C82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZIPCodePH.Client.Blazor", "ZIPCodePH.Client.Blazor\ZIPCodePH.Client.Blazor.csproj", "{8C9A2F10-A672-4828-A1D0-7B56D7C41189}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{DB2EA722-46D6-4D29-A249-F891127AA253}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2EA722-46D6-4D29-A249-F891127AA253}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2EA722-46D6-4D29-A249-F891127AA253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C9A2F10-A672-4828-A1D0-7B56D7C41189} = {BE69E49D-C82A-4FD0-8865-612F6E765C82}
 	EndGlobalSection
 EndGlobal

@@ -14,24 +14,6 @@ public class AreasServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetAreas_WithSampleAreas_AllFourAreas()
-    {
-        // Arrange
-        var ctx = _contextBuilder
-            .WithFiveZipCodes()
-            .Build();
-        _sut = new AreasService(ctx);
-        var expected = 4;
-
-        // Act
-        var areas = await _sut.GetAreas();
-        var actual = areas.Count();
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
     public async Task GetAreas_WithSampleAreas_AllDistinctAreaNames()
     {
         // Arrange

@@ -1,0 +1,70 @@
+﻿@page "/"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject NavigationManager Navigation
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>Home</PageTitle>
+
+<h1>Home</h1>
+
+<button class="btn btn-primary"
+        @onclick="@ShowAreas">
+    NCR
+</button>
+
+@if (groups is null)
+{
+    <p>Failed</p>
+}
+else
+{
+    <div class="container">
+        @foreach (var group in groups)
+        {
+            <div class="row">
+                <button type="button" class="btn btn-primary">
+                    @group.Name
+                </button>
+            </div>
+        }
+    </div>
+}
+
+
+@code {
+    private IEnumerable<GroupModel>? groups = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            "https://localhost:7171/groups");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+        Console.WriteLine(response.IsSuccessStatusCode);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            groups = await JsonSerializer.DeserializeAsync<IEnumerable<GroupModel>>(responseStream);
+        }
+        else
+        {
+            // Error
+        }
+
+        base.OnInitialized();
+    }
+
+    public class GroupModel
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+    }
+
+    private void ShowAreas()
+    {
+        Navigation.NavigateTo("/areas/NCR");
+    }
+
+}

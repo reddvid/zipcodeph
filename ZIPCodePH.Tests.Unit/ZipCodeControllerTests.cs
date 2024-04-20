@@ -2,9 +2,9 @@ using ZIPCodePH.Api.Controllers;
 
 namespace ZIPCodePH.Tests.Unit;
 
-public class ZipCodesControllerTests
+public class ZipCodeControllerTests
 {
-    private readonly ZipCodesController _sut;
+    private readonly ZipCodeController _sut;
     
     [Fact]
     public void Test1()

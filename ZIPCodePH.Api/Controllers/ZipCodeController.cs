@@ -6,13 +6,13 @@ using ZIPCodePH.DataContext.Services;
 namespace ZIPCodePH.Api.Controllers;
 
 [ApiController]
-[Route("/")]
-public class ZipCodesController : ControllerBase
+[Route("/groups/area/zipcodes")]
+public class ZipCodeController : ControllerBase
 {
-    private readonly ILogger<ZipCodesController> _logger;
+    private readonly ILogger<ZipCodeController> _logger;
     private readonly IZipCodesService _zipCodesService;
 
-    public ZipCodesController(ILogger<ZipCodesController> logger, IZipCodesService zipCodesService)
+    public ZipCodeController(ILogger<ZipCodeController> logger, IZipCodesService zipCodesService)
     {
         _logger = logger;
         _zipCodesService = zipCodesService;
@@ -26,7 +26,7 @@ public class ZipCodesController : ControllerBase
         return zipCodes.ToPagedList(pageNumber, 10);
     }
 
-    [HttpGet("query={query}")]
+    [HttpGet("{query}")]
     public async Task<IPagedList<ZipCode>> GetZipCode(string query, int? page)
     {
         var zipCodes = await _zipCodesService.GetZipCodesByQuery(query);
