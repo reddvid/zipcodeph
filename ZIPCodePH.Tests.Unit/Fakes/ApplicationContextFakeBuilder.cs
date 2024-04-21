@@ -63,6 +63,15 @@ public class ApplicationContextFakeBuilder : IDisposable
         return this;
     }
 
+    public ApplicationContextFakeBuilder WithThreeTrivia()
+    {
+        _context.Add(new Trivia { Content = "First Trivia" });
+        _context.Add(new Trivia { Content = "Second Trivia" });
+        _context.Add(new Trivia { Content = "Third Trivia" });
+
+        return this;
+    }
+    
     public ApplicationContextFake Build()
     {
         _context.SaveChangesAsync();

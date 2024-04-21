@@ -28,10 +28,10 @@ public class ApplicationContext : DbContext
         //     .HasForeignKey(e => e.AreaId)
         //     .HasPrincipalKey(e => e.Id);
 
-        builder.Entity<ZipCode>()
-            .Ignore(t => t.Code)
-            .Ignore(t => t.Town)
-            .Ignore(t => t.Area);
+        // builder.Entity<ZipCode>()
+        //     .Ignore(t => t.Code)
+        //     .Ignore(t => t.Town)
+        //     .Ignore(t => t.Area);
         
         base.OnModelCreating(builder);
     }

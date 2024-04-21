@@ -11,18 +11,18 @@ namespace ZIPCodePH.DataContext.Services;
 
 public class TriviaService : ITriviaService
 {
-    private readonly JsonBinConnectionOptions _connectionOptions;
+    private readonly JsonBinConnectionOptions? _connectionOptions;
     private readonly ApplicationContext _context;
 
-    public TriviaService(IOptions<JsonBinConnectionOptions> connectionOptions, ApplicationContext context)
+    public TriviaService(IOptions<JsonBinConnectionOptions>? connectionOptions, ApplicationContext context)
     {
         _context = context;
-        _connectionOptions = connectionOptions.Value;
+        _connectionOptions = connectionOptions?.Value;
     }
 
     private async Task<IEnumerable<string>> GetAllAsync()
     {
-        TriviaViewModel triviaView = new();
+        TriviaModel triviaView = new();
 
         HttpClient client = new();
         client.DefaultRequestHeaders.Add("X-Master-Key", _connectionOptions.MasterKey);
@@ -36,7 +36,7 @@ public class TriviaService : ITriviaService
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            triviaView = await JsonSerializer.DeserializeAsync<TriviaViewModel>(responseStream);
+            triviaView = await JsonSerializer.DeserializeAsync<TriviaModel>(responseStream);
         }
 
         return triviaView.Trivia;
@@ -46,6 +46,12 @@ public class TriviaService : ITriviaService
     {
         // var trivia = await GetAllAsync();
         var trivia = await _context.Trivia!.ToArrayAsync();
+
+        if (trivia is null || trivia.Length == 0)
+        {
+            throw new NullReferenceException("No Trivia found");
+        }
+        
         var i = Random.Shared.Next(0, trivia.Length);
         return trivia[i].Content;
     }

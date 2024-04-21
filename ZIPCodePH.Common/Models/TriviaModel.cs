@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace ZIPCodePH.Common.ViewModels;
+namespace ZIPCodePH.Common.Models;
 
-public class TriviaViewModel
+public class TriviaModel
 {
     [JsonPropertyName("trivia")] public IEnumerable<string>? Trivia { get; set; }
 }
