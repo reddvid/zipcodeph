@@ -11,13 +11,13 @@ namespace ZIPCodePH.DataContext.Services;
 
 public class TriviaService : ITriviaService
 {
-    private readonly JsonBinConnectionOptions _connectionOptions;
+    private readonly JsonBinConnectionOptions? _connectionOptions;
     private readonly ApplicationContext _context;
 
-    public TriviaService(IOptions<JsonBinConnectionOptions> connectionOptions, ApplicationContext context)
+    public TriviaService(IOptions<JsonBinConnectionOptions>? connectionOptions, ApplicationContext context)
     {
         _context = context;
-        _connectionOptions = connectionOptions.Value;
+        _connectionOptions = connectionOptions?.Value;
     }
 
     private async Task<IEnumerable<string>> GetAllAsync()
