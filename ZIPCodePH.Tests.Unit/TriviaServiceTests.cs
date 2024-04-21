@@ -27,5 +27,7 @@ public class TriviaServiceTests : IDisposable
 
         // Assert
         Assert.NotNull(trivia);
+        Assert.Contains("Trivia", trivia);
     }
+    
 }
