@@ -6,9 +6,7 @@ namespace ZIPCodePH.DataContext.Entities;
 public class ZipCode
 {
     public int Id { get; set; }
-    
-    [MaxLength(4)]
-    public ushort Code { get; set; }
+    public int Code { get; set; }
     public string Town { get; set; }
     
     public int AreaId { get; set; }

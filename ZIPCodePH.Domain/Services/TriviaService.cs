@@ -22,7 +22,7 @@ public class TriviaService : ITriviaService
 
     private async Task<IEnumerable<string>> GetAllAsync()
     {
-        TriviaViewModel triviaView = new();
+        TriviaModel triviaView = new();
 
         HttpClient client = new();
         client.DefaultRequestHeaders.Add("X-Master-Key", _connectionOptions.MasterKey);
@@ -36,7 +36,7 @@ public class TriviaService : ITriviaService
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            triviaView = await JsonSerializer.DeserializeAsync<TriviaViewModel>(responseStream);
+            triviaView = await JsonSerializer.DeserializeAsync<TriviaModel>(responseStream);
         }
 
         return triviaView.Trivia;
