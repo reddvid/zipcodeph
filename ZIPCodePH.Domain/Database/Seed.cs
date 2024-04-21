@@ -16,6 +16,14 @@ public class Seed
             new ApplicationContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationContext>>());
         // await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
+        
+        if (await context.Groups!.AnyAsync() ||
+            await context.Areas!.AnyAsync() ||
+            await context.ZipCodes!.AnyAsync() ||
+            await context.Trivia!.AnyAsync())
+        {
+            return; // Database has seeded
+        }
 
         // Groups
         var ncr = await context.AddAsync(new Group { Name = "NCR" });
