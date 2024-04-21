@@ -6,7 +6,7 @@ using ZIPCodePH.DataContext.Services;
 namespace ZIPCodePH.Api.Controllers;
 
 [ApiController]
-[Route("/zipcodes")]
+[Route("api/zipcodes")]
 public class ZipCodeController : ControllerBase
 {
     private readonly ILogger<ZipCodeController> _logger;

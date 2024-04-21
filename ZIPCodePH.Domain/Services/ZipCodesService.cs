@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ZIPCodePH.DataContext.Data;
+using ZIPCodePH.DataContext.Database;
 using ZIPCodePH.DataContext.Entities;
 
 namespace ZIPCodePH.DataContext.Services;

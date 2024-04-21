@@ -4,7 +4,8 @@ using ZIPCodePH.DataContext.Services;
 
 namespace ZIPCodePH.Api.Controllers;
 
-[Route("/groups")]
+[ApiController]
+[Route("api/groups")]
 public class GroupController : ControllerBase
 {
     private readonly ILogger<GroupController> _logger;

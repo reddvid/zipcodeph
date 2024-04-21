@@ -1,7 +1,8 @@
 @page "/areas"
 @page "/areas/{group}"
 @using System.Text.Json
-@using System.Text.Json.Serialization
+@using ZIPCodePH.Common.Models
+@using ZIPCodePH.Common.ViewModels
 @inject IHttpClientFactory ClientFactory
 
 <PageTitle>Areas</PageTitle>
@@ -66,8 +67,8 @@ else
 }
 
 @code {
-    private IEnumerable<GroupModel>? groups = [];
-    private IEnumerable<AreaModel>? areas = [];
+    private IEnumerable<GroupViewModel>? groups = [];
+    private IEnumerable<AreaViewModel>? areas = [];
 
     private async Task GetAreasAsync()
     {
@@ -81,7 +82,7 @@ else
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            areas = await JsonSerializer.DeserializeAsync<IEnumerable<AreaModel>>(responseStream);
+            areas = await JsonSerializer.DeserializeAsync<IEnumerable<AreaViewModel>>(responseStream);
         }
     }
 
@@ -97,7 +98,7 @@ else
         if (response.IsSuccessStatusCode)
         {
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            groups = await JsonSerializer.DeserializeAsync<IEnumerable<GroupModel>>(responseStream);
+            groups = await JsonSerializer.DeserializeAsync<IEnumerable<GroupViewModel>>(responseStream);
         }
     }
 
@@ -112,15 +113,7 @@ else
 
     [Parameter] public string? Group { get; set; } = default!;
 
-    public class AreaModel
-    {
-        [JsonPropertyName("name")] public string? Name { get; set; }
-        [JsonPropertyName("group")] public GroupModel Group { get; set; }
-    }
+    
 
-    public class GroupModel
-    {
-        [JsonPropertyName("name")] public string? Name { get; set; }
-    }
-
+   
 }

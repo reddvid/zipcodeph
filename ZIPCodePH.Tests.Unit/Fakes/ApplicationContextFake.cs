@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ZIPCodePH.DataContext.Data;
+using ZIPCodePH.DataContext.Database;
 
 namespace ZIPCodePH.Tests.Unit.Fakes;
 

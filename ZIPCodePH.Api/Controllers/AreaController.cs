@@ -4,7 +4,8 @@ using ZIPCodePH.DataContext.Services;
 
 namespace ZIPCodePH.Api.Controllers;
 
-[Route("/areas")]
+[ApiController]
+[Route("api/areas")]
 public class AreaController : ControllerBase
 {
     private readonly ILogger<AreaController> _logger;
@@ -16,7 +17,7 @@ public class AreaController : ControllerBase
         _areasService = areasService;
     }
 
-    [HttpGet("/areas/{groupName}")]
+    [HttpGet("{groupName}")]
     public async Task<IEnumerable<Area>> GetAreasByGroupName(string groupName)
     {
         var areas = await _areasService.GetAreasByGroupName(groupName);
