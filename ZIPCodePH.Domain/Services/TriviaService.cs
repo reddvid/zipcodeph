@@ -46,6 +46,12 @@ public class TriviaService : ITriviaService
     {
         // var trivia = await GetAllAsync();
         var trivia = await _context.Trivia!.ToArrayAsync();
+
+        if (trivia is null || trivia.Length == 0)
+        {
+            throw new NullReferenceException("No Trivia found");
+        }
+        
         var i = Random.Shared.Next(0, trivia.Length);
         return trivia[i].Content;
     }

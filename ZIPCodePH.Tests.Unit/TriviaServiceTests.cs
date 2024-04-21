@@ -29,5 +29,19 @@ public class TriviaServiceTests : IDisposable
         Assert.NotNull(trivia);
         Assert.Contains("Trivia", trivia);
     }
-    
+
+    [Fact]
+    public async Task GetRandomTrivia_WithNoTrivia_NullReferenceException()
+    {
+        // Arrange
+        var ctx = _contextBuilder.Build();
+        _sut = new TriviaService(null!, ctx);
+
+        // Act
+        var exception = await Assert.ThrowsAsync<NullReferenceException>(
+            () => _sut.GetRandomTrivia());
+
+        // Assert
+        Assert.IsType<NullReferenceException>(exception);
+    }
 }
