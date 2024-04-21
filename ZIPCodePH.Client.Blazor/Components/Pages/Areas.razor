@@ -40,7 +40,7 @@ else
                     <div class="list-group">
                         @foreach (var area in areas)
                         {
-                            if (area.GroupView.Name != group.Name) continue;
+                            if (area.Group.Name != group.Name) continue;
                             <a href="/zipcodes/@area.Name" class="list-group-item">
                                 @area.Name
                             </a>
@@ -55,7 +55,7 @@ else
                 <div class="list-group">
                     @foreach (var area in areas)
                     {
-                        if (area.GroupView.Name.ToLower() != Group.ToLower()) continue;
+                        if (area.Group.Name.ToLower() != Group.ToLower()) continue;
                         <a href="/zipcodes/@area.Name" class="list-group-item">
                             @area.Name
                         </a>

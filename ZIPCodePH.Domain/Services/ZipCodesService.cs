@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ZIPCodePH.DataContext.Data;
+using ZIPCodePH.DataContext.Database;
 using ZIPCodePH.DataContext.Entities;
 
 namespace ZIPCodePH.DataContext.Services;
@@ -14,7 +14,7 @@ public class ZipCodesService : IZipCodesService
     }
 
     public async Task<IEnumerable<ZipCode>> GetZipCodes() =>
-        await _context.ZipCodes!.Include("Area").Include("Area.GroupView").ToArrayAsync();
+        await _context.ZipCodes!.Include("Area").Include("Area.Group").ToArrayAsync();
 
     public async Task<IEnumerable<ZipCode>> GetZipCodesByQuery(string query)
     {
@@ -25,7 +25,7 @@ public class ZipCodesService : IZipCodesService
         
         return await _context.ZipCodes!
             .Include("Area")
-            .Include("Area.GroupView")
+            .Include("Area.Group")
             .Where(
                 z =>
                     z.Area.Name.ToLower().Contains(query.ToLower()) ||
@@ -42,7 +42,7 @@ public class ZipCodesService : IZipCodesService
         
         return await _context.ZipCodes!
             .Include("Area")
-            .Include("Area.GroupView")
+            .Include("Area.Group")
             .Where(
                 z =>
                     z.Area.Name.ToLower().Equals(area.ToLower()))

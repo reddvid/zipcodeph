@@ -7,7 +7,7 @@ using ZIPCodePH.Common.ViewModels;
 using ZIPCodePH.Data.Old.Data;
 using ZIPCodePH.DataContext.Entities;
 
-namespace ZIPCodePH.DataContext.Data;
+namespace ZIPCodePH.DataContext.Database;
 
 public class Seed
 {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using ZIPCodePH.Common.Models;
 using ZIPCodePH.Common.ViewModels;
-using ZIPCodePH.DataContext.Data;
+using ZIPCodePH.DataContext.Database;
 using ZIPCodePH.DataContext.Options;
 
 namespace ZIPCodePH.DataContext.Services;

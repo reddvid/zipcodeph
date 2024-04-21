@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ZIPCodePH.Common.Models;
 using ZIPCodePH.DataContext.Entities;
 
-namespace ZIPCodePH.DataContext.Data;
+namespace ZIPCodePH.DataContext.Database;
 
 public class ApplicationContext : DbContext
 {

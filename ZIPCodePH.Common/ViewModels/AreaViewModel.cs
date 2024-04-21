@@ -6,5 +6,5 @@ namespace ZIPCodePH.Common.ViewModels;
 public  class AreaViewModel
 {
     [JsonPropertyName("name")] public string? Name { get; set; }
-    [JsonPropertyName("group")] public GroupViewModel GroupView { get; set; }
+    [JsonPropertyName("group")] public GroupViewModel Group { get; set; }
 }

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ZIPCodePH.DataContext.Data;
+using ZIPCodePH.DataContext.Database;
 using ZIPCodePH.DataContext.Entities;
 
 namespace ZIPCodePH.DataContext.Services;
@@ -15,11 +15,11 @@ public class AreasService : IAreasService
 
     public async Task<IEnumerable<Area>> GetAreas()
     {
-        return await _context.Areas!.Include("GroupView").ToArrayAsync();
+        return await _context.Areas!.Include("Group").ToArrayAsync();
     }
 
     public async Task<IEnumerable<Area>> GetAreasByGroupName(string name)
     {
-        return await _context.Areas!.Include("GroupView").Where(a => a.Group.Name == name).ToArrayAsync();
+        return await _context.Areas!.Include("Group").Where(a => a.Group.Name == name).ToArrayAsync();
     }
 }

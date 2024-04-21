@@ -3,7 +3,8 @@ using ZIPCodePH.DataContext.Services;
 
 namespace ZIPCodePH.Api.Controllers;
 
-[Route("/trivia")]
+[ApiController]
+[Route("api/trivia")]
 public class TriviaController : ControllerBase
 {
     private readonly ILogger<TriviaController> _logger;
