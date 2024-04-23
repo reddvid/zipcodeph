@@ -26,6 +26,13 @@ public class ZipCodeController : ControllerBase
         var pageNumber = page ?? 1;
         return zipCodes.ToPagedList(pageNumber, 10);
     }
+    
+    [HttpGet("all")]
+    public async Task<IEnumerable<ZipCode>> GetAll()
+    {
+        var zipCodes = await _zipCodesService.GetZipCodes();
+        return zipCodes.ToArray();
+    }
 
     [HttpGet("q={query}")]
     public async Task<IPagedList<ZipCode>> GetZipCode(string query, int? page)

@@ -69,8 +69,21 @@ import { Component } from '@angular/core';
         </defs>
       </svg>
       <span>ZIP Code PH</span>
+  </div>
   `,
-  styleUrl: './logo.component.css'
+  styles: `
+  .zipcodeph-logo {
+    height: 80px;
+  }
+  span {
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  `,
 })
 export class LogoComponent {
 

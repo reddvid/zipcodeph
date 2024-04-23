@@ -1,7 +1,9 @@
+using ZIPCodePH.DataContext.Entities;
+
 namespace ZIPCodePH.DataContext.Services;
 
 public interface ITriviaService
 {
-    //Task<IEnumerable<string>> GetAll();
+    Task<IEnumerable<Trivia>> GetAll();
     Task<string> GetRandomTrivia();
 }
