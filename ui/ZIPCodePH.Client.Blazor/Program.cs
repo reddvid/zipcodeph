@@ -1,8 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using ZIPCodePH.Client.Blazor.Components;
+using ZIPCodePH.Client.Blazor.Data;
+using ZIPCodePH.DataContext.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                       throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+builder.Services.AddDbContext<ApplicationContext>(
+    options => options.UseSqlite(connectionString));
+builder.Services.AddApplicationContext();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 

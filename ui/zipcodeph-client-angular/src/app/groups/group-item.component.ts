@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-group-item',
   standalone: true,
   imports: [],
   template: `
-    <div class="group-item">
-      <h2>{{title}}</h2>
-    </div>
+      <div class="group-item" (clicked)="goToArea()">
+        <h2>{{title}}</h2>
+      </div>
   `,
   styles: `
   .group-item {
@@ -22,9 +23,14 @@ import { Component, Input, OnInit } from '@angular/core';
   }
   `
 })
+
 export class GroupItemComponent implements OnInit {
   @Input() title!: string;
-  
+
+  goToArea() {
+    this.router.navigate
+  }
+
   ngOnInit() { }
 
 
