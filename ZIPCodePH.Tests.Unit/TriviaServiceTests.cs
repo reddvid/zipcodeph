@@ -20,7 +20,7 @@ public class TriviaServiceTests : IDisposable
         var ctx = _contextBuilder
             .WithThreeTrivia()
             .Build();
-        _sut = new TriviaService(null!, ctx);
+        _sut = new TriviaService(ctx);
 
         // Act
         var trivia = await _sut.GetRandomTrivia();
@@ -35,7 +35,7 @@ public class TriviaServiceTests : IDisposable
     {
         // Arrange
         var ctx = _contextBuilder.Build();
-        _sut = new TriviaService(null!, ctx);
+        _sut = new TriviaService(ctx);
 
         // Act
         var exception = await Assert.ThrowsAsync<NullReferenceException>(
