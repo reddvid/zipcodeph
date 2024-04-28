@@ -1,9 +1,11 @@
 @page "/areas"
 @page "/areas/{group}"
 @using System.Text.Json
+@using ZIPCodePH.Common.Models
 @using ZIPCodePH.Common.ViewModels
+@using ZIPCodePH.DataContext.Entities
 @inject IHttpClientFactory ClientFactory
-
+@rendermode @(new InteractiveServerRenderMode(prerender: true))
 <PageTitle>Areas</PageTitle>
 
 @if (!string.IsNullOrWhiteSpace(Group))
@@ -29,9 +31,21 @@
 else
 {
     <div class="row">
+        <div class="col-md-5 col-sm-12">
+            <AutoComplete TItem="ZipCodeViewModel"
+                          @bind-Value="townName"
+                          DataProvider="ZipsDataProvider"
+                          StringComparison="StringComparison.OrdinalIgnoreCase"
+                          StringFilterOperator="StringFilterOperator.StartsWith"
+                          PropertyName="Town"
+                          Placeholder="Search towns or cities..."
+                          OnChanged="(ZipCodeViewModel zip) => OnAutoCompleteChanged(zip)"/>
+        </div>
+    </div>
+    <!-- Showing All Areas By Group -->
+    <div class="row">
         @if (string.IsNullOrWhiteSpace(Group))
         {
-            <!-- Showing All Zip Codes -->
             foreach (var group in groups)
             {
                 <div class="col-md-auto">
@@ -68,15 +82,57 @@ else
 @code {
     private IEnumerable<GroupViewModel>? groups = [];
     private IEnumerable<AreaViewModel>? areas = [];
+    private string? townName;
+    public IEnumerable<ZipCodeViewModel> zipcodes;
+
+    private async Task<AutoCompleteDataProviderResult<ZipCodeViewModel>> ZipsDataProvider(AutoCompleteDataProviderRequest<ZipCodeViewModel> request)
+    {
+        Console.WriteLine("DataProvider");
+        if (zipcodes is null || !zipcodes.Any())
+        {
+            zipcodes = await GetTownsAsync() ?? Array.Empty<ZipCodeViewModel>();
+        }
+
+        return await Task.FromResult(request.ApplyTo(zipcodes!.OrderBy(
+            z => z.Town)));
+    }
+
+    private async Task<IEnumerable<ZipCodeViewModel>?> GetTownsAsync()
+    {
+        Console.WriteLine("Getting Towns");
+
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://localhost:5186/api/zipcodes/all");
+        var client = ClientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+        Console.WriteLine("Towns: " + response.IsSuccessStatusCode);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<ZipCodeViewModel>>(responseStream);
+        }
+
+        return [];
+    }
+
+    private void OnAutoCompleteChanged(ZipCodeViewModel? zipcode)
+    {
+        // TODO: handle your own logic
+        if (zipcode is null)
+            return;
+
+        // NOTE: do null check
+        Console.WriteLine($"'{zipcode?.Town}' selected.");
+    }
 
     private async Task GetAreasAsync()
     {
         var request = new HttpRequestMessage(HttpMethod.Get,
-            $"https://localhost:7171/areas");
+            $"https://localhost:5186/api/areas");
         var client = ClientFactory.CreateClient();
         var response = await client.SendAsync(request);
-
-        Console.WriteLine(response.IsSuccessStatusCode);
 
         if (response.IsSuccessStatusCode)
         {
@@ -88,11 +144,10 @@ else
     private async Task GetGroupsAsync()
     {
         var request = new HttpRequestMessage(HttpMethod.Get,
-            "https://localhost:7171/groups");
+            "https://localhost:5186/api/groups");
         var client = ClientFactory.CreateClient();
         var response = await client.SendAsync(request);
 
-        Console.WriteLine(response.IsSuccessStatusCode);
 
         if (response.IsSuccessStatusCode)
         {
@@ -112,7 +167,5 @@ else
 
     [Parameter] public string? Group { get; set; } = default!;
 
-    
 
-   
 }

@@ -13,14 +13,14 @@ builder.Services.AddDbContext<ApplicationContext>(
 
 // options.UseSqlServer(builder.Configuration["AzureSqlDb:ConnectionString"])
 // options.UseSqlServer(builder.Configuration.GetConnectionString("ZipCodePH"))
-
-var jsonBinMasterKey = builder.Configuration["JsonBin:MasterKey"];
-var jsonBinAccessKey = builder.Configuration["JsonBin:AccessKey"];
-builder.Services.Configure<JsonBinConnectionOptions>(o =>
-{
-    o.MasterKey = jsonBinMasterKey!;
-    o.AccessKey = jsonBinAccessKey!;
-});
+//
+// var jsonBinMasterKey = builder.Configuration["JsonBin:MasterKey"];
+// var jsonBinAccessKey = builder.Configuration["JsonBin:AccessKey"];
+// builder.Services.Configure<JsonBinConnectionOptions>(o =>
+// {
+//     o.MasterKey = jsonBinMasterKey!;
+//     o.AccessKey = jsonBinAccessKey!;
+// });
 builder.Services.AddScoped<IZipCodesService, ZipCodesService>();
 builder.Services.AddScoped<IAreasService, AreasService>();
 builder.Services.AddScoped<IGroupsService, GroupsService>();

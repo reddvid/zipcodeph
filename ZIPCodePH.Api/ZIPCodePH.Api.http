@@ -1,4 +1,4 @@
-@ZIPCodePH.Api_HostAddress = https://localhost:7171
+@ZIPCodePH.Api_HostAddress = https://localhost:5186/api
 
 GET {{ZIPCodePH.Api_HostAddress}}/query=Dagupan
 Accept: text/plain
